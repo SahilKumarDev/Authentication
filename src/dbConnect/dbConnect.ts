@@ -10,7 +10,7 @@ export async function connect (){
     })
 
     connection.on("error", (error)=>{ // Read `.on()` method 
-      console.log("Mongoose database not conneted successfully, please make sure Database is up and running: ", error);
+      console.log("please make sure Database is up and running, so Mongoose database does not connected successfully: ", error);
       process.exit();
     })
     
