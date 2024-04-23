@@ -11,8 +11,9 @@ export default function page() {
   const getUserData = async () => {
     try {
       const res = await axios.post("/api/users/profile");
-      console.log(res.data.data._id);
-      setData(res.data.data._id);
+      console.log(res.data.data.username);
+      setData(res.data.data.username);
+      
     } catch (error: any) {
       console.log(error.message);
       toast.error(error.message);

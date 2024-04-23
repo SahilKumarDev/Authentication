@@ -1,11 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 const page = () => {
-  // const router = useRouter();
 
   const [token, setToken] = useState("");
   const [verified, setVerified] = useState(false);
@@ -25,9 +23,6 @@ const page = () => {
     setError(false)
     const urlToken = window.location.search.split("=")[1];
     setToken(urlToken || "");
-
-  //   const { query } = router;
-  //   const urltokenTwo = query.token;
   }, []);
 
   useEffect(() => {
