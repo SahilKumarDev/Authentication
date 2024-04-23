@@ -14,10 +14,11 @@ export async function POST(request: NextRequest) {
     console.log(reqBody);
 
     const user = await User.findOne({ email });
+    console.log(user);
 
     if (!user) {
       return NextResponse.json(
-        { error: "USER DOES NOT EXISTS" },
+        { error: "USER DOES NOT EXISTS IN DATABASE" },
         { status: 402 }
       );
     }
@@ -38,13 +39,9 @@ export async function POST(request: NextRequest) {
       email: user.email,
     };
 
-    const token = jwt.sign(
-      tokenData,
-      process.env.TOKEN_SECRET!,
-      {
-        expiresIn: "1d",
-      }
-    );
+    const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
+      expiresIn: "1d",
+    });
 
     const nextResponce = NextResponse.json({
       message: "Logged In Success",

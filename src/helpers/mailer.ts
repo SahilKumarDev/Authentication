@@ -6,21 +6,18 @@ export const sendEmailToUser = async ({ email, emailtype, userId }: any) => {
   try {
     // Token cretaed
     const hashedToken = await bcrypt.hash(userId.toString(), 10);
-    const hashedTokenExpiry = Date.now() + 3600000;
 
     // Email hashed token verify and reset
     if (emailtype === "VERIFY") {
-      await User.findByIdAndUpdate(
-        userId,
-        { verifyToken: hashedToken },
-        { verifyTokenExpiry: hashedTokenExpiry }
-      );
+      await User.findByIdAndUpdate(userId, {
+        verifyToken: hashedToken,
+        verifyTokenExpiry: Date.now() + 3600000,
+      });
     } else if (emailtype === "RESET") {
-      await User.findByIdAndUpdate(
-        userId,
-        { forgetPasswordToken: hashedToken },
-        { forgetPasswordTokenExpiry: hashedTokenExpiry }
-      );
+      await User.findByIdAndUpdate(userId, {
+        forgetPasswordToken: hashedToken,
+        forgetPasswordTokenExpiry: Date.now() + 3600000,
+      });
     }
 
     const transport = nodemailer.createTransport({
@@ -33,19 +30,23 @@ export const sendEmailToUser = async ({ email, emailtype, userId }: any) => {
     });
 
     const mailOptions = {
-      from: "Villan",
+      from: "Villan@gmail.com",
       to: email,
       subject:
-        emailtype === "verify" ? "Verify your email" : "Reset your email",
-      html: `<p>Click <a href="${process.env.DOMIN}/verifyemail?token=${hashedToken}">here</a> to ${
+        emailtype === "VERIFY" ? "VERIFY your email" : "Reset your password",
+      html: `<p>Click <a href="${
+        process.env.DOMAIN
+      }/verifyemail?token=${hashedToken}">here</a> to ${
         emailtype === "VERIFY" ? "verify your email" : "reset your password"
       } or copy and paste the link below in your browser, <br>
-      ${process.env.DOMIN}/verifyemail>token=${hashedToken}
+      ${process.env.DOMAIN}/verifyemail?token=${hashedToken}
       </P>`,
     };
 
     const mailResopnse = await transport.sendMail(mailOptions);
 
+    // console.log(mailResopnse);
+    
     return mailResopnse;
   } catch (error: any) {
     throw new Error(error.message);
