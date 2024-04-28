@@ -1,11 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
-import Link from "next/link";
 import toast, { Toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [data, setData] = useState("nothing");
   const getUserData = async () => {
