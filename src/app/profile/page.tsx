@@ -13,7 +13,6 @@ export default function page() {
       const res = await axios.post("/api/users/profile");
       console.log(res.data.data.username);
       setData(res.data.data.username);
-      
     } catch (error: any) {
       console.log(error.message);
       toast.error(error.message);
@@ -23,7 +22,7 @@ export default function page() {
   const logout = async () => {
     try {
       const res = await axios.get("/api/users/logout");
-      toast.success("logout sucess");
+      toast.success("logout success");
       router.push("/login");
     } catch (error: any) {
       console.log(error.message);
@@ -32,31 +31,40 @@ export default function page() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1>Profile</h1>
-      <hr />
-      <p>Profile page</p>
-      <h2 className="p-1 rounded bg-green-500">
-        {data === "nothing" ? (
-          "Nothing"
-        ) : (
-          <Link href={`/profile/${data}`}>{data}</Link>
-        )}
-      </h2>
-      <hr />
-      <button
-        onClick={logout}
-        className="bg-blue-500 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Logout
-      </button>
+    <div className=" flex justify-center items-center w-full  h-full ">
+      <div className="py-4 px-8 border-[1px] bg-[#00c3e659] border-[#03fffb] rounded-xl">
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="mb-5 font-bold text-yellow-600 text-xl">
+            Your Profile
+          </h1>
 
-      <button
-        onClick={getUserData}
-        className="bg-green-800 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        GetUser Details
-      </button>
+          <div className="space-y-4">
+            <h2 className="py-1 px-3 flex justify-center items-center text-xl w-full rounded bg-green-500">
+              {data === "nothing" ? (
+                "Click on get your details"
+              ) : (
+                <h4>Name: {data}</h4>
+              )}
+            </h2>
+
+            <div className="flex gap-2 justify-center items-center ">
+              <button
+                onClick={getUserData}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Get your details
+              </button>
+
+              <button
+                onClick={logout}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
